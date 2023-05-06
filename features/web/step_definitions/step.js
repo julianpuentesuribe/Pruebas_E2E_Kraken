@@ -53,12 +53,19 @@ When(
 );
 
 When("I edit page content with {kraken-string}", async function (content) {
-  console.log("nuevo contenido: ", content);
   const pageBody = await pagesSection.editorContainerBody;
   await pageBody.click();
   await pageBody.keys(["Control", "a", "Backspace"]); // se borra el contenido que habia antes
   await new Promise((resolve) => setTimeout(resolve, 1000));
   await pageBody.setValue(content);
+});
+
+When("I edit page title with {kraken-string}", async function (title) {
+  const pageTitle = await pagesSection.editorContainerTitle;
+  await pageTitle.click();
+  await pageTitle.keys(["Control", "a", "Backspace"]); // se borra el título que habia antes
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await pageTitle.setValue(title);
 });
 
 When("I update page", async function () {
@@ -117,6 +124,20 @@ Then(
     if (pageContent !== content) {
       throw new Error(
         `The content "${content}" does not match with the page content "${pageContent}"`
+      );
+    }
+  }
+);
+
+Then(
+  "I verify that the edited title {kraken-string} appeared on the website",
+  async function (content) {
+    await this.driver.navigateTo(currentPageUrl);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const pageTitle = await site.pageTitle.getText();
+    if (pageTitle !== content) {
+      throw new Error(
+        `The title "${content}" does not match with the page title "${pageTitle}"`
       );
     }
   }
