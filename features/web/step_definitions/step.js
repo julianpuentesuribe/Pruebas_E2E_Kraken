@@ -40,14 +40,19 @@ When(
 
 When("I publish the current page", async function () {
   await pagesSection.publishPage();
+  await new Promise((resolve) => setTimeout(resolve, 4000));
   currentPageUrl = await pagesSection.getPageUrl();
 });
 
+Then("I go back to page list", async function () {
+  const backButton = await pagesSection.goBackToPagesSection;
+  await this.driver.execute((el) => el.click(), backButton);
+  return backButton.click();
+});
+
 Then(
-  "I verified that the page with title {kraken-string} is in the page list",
+  "I verified that the page with title {kraken-string} is on the page list",
   async function (title) {
-    await pagesSection.goBackToPagesSection.click();
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     await pagesSection.pageInList(title);
   }
 );
@@ -61,6 +66,20 @@ Then(
     if (pageTitle !== title) {
       throw new Error(
         `The page title "${title}" does not match the h1 text "${pageTitle}"`
+      );
+    }
+  }
+);
+
+Then(
+  "I verified that the page with title {kraken-string} has {string} status",
+  async function (title, status) {
+    status = status.toLowerCase();
+    const pageRow = await pagesSection.pageInList(title);
+    const pageRowText = await pageRow.getText();
+    if (!pageRowText.toLowerCase().includes(status)) {
+      throw new Error(
+        `The page with title "${title}" doesn't have "${status}" status`
       );
     }
   }

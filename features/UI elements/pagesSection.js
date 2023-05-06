@@ -52,6 +52,8 @@ class PageSection {
   }
 
   async pageInList(title) {
+    await this.driver.$(".gh-list").waitForExist();
+
     var pageElements = await this.driver.$$(
       "li.gh-list-row.gh-posts-list-item"
     );
