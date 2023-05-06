@@ -5,6 +5,9 @@ class AdminMenu {
   get pageTab() {
     return this.driver.$("a[href='#/pages/']");
   }
+  get postTab() {
+    return this.driver.$("a[href='#/posts/']");
+  }
 }
 
 module.exports = AdminMenu;
