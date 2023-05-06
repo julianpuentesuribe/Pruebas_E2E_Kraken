@@ -218,6 +218,20 @@ Then(
 );
 
 Then(
+  "I verify that the post with title {kraken-string} has {string} status",
+  async function (title, status) {
+    status = status.toLowerCase();
+    const postRow = await postsSection.postInList(title);
+    const postRowText = await postRow.getText();
+    if (!postRowText.toLowerCase().includes(status)) {
+      throw new Error(
+        `The post with title "${title}" doesn't have "${status}" status`
+      );
+    }
+  }
+);
+
+Then(
   "I verify that the post with title {kraken-string} is on the post list",
   async function (title) {
     await postsSection.postInList(title);
