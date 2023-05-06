@@ -12,7 +12,7 @@ class Site {
   }
 
   get page404() {
-    return cy.get("h1").contains("404");
+    return this.driver.$("h1.error-code");
   }
 }
 

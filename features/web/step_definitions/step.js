@@ -47,6 +47,12 @@ When("I publish the current page", async function () {
 When(
   "I select a page in the list with title {kraken-string}",
   async function (title) {
+    console.log(
+      "-------------------------------------SELECT IN PAGE LIST-----------------------------------------"
+    );
+    console.log(
+      "----------------------------------------------------------------------------------------------"
+    );
     const pageRow = await pagesSection.pageInList(title);
     pageRow.click();
   }
@@ -72,6 +78,10 @@ When("I update page", async function () {
   await pagesSection.updatePage();
   await new Promise((resolve) => setTimeout(resolve, 4000));
   currentPageUrl = await pagesSection.getPageUrl();
+});
+
+When("I delete the page", async function () {
+  await pagesSection.deletePage();
 });
 
 Then("I go back to page list", async function () {
@@ -140,5 +150,25 @@ Then(
         `The title "${content}" does not match with the page title "${pageTitle}"`
       );
     }
+  }
+);
+
+Then(
+  "I verify page with title {kraken-string} is not on the page list",
+  async function (title) {
+    const pageInList = await pagesSection.pageInList(title);
+    if (pageInList != undefined) {
+      throw new Error(
+        `The page with title "${title}" still appears in pages list."`
+      );
+    }
+  }
+);
+
+Then(
+  "I verify that the page is not available in the webpage",
+  async function () {
+    await this.driver.navigateTo(currentPageUrl);
+    await site.page404.waitForExist();
   }
 );
