@@ -36,11 +36,11 @@ class PageSection {
   }
 
   get editorDeletePageButton() {
-    return cy.get("button").contains("Delete page");
+    return this.driver.$("button.settings-menu-delete-button");
   }
 
   get modalDeleteButton() {
-    return cy.get("button.gh-btn-red").contains("Delete");
+    return this.driver.$("button.gh-btn-red");
   }
 
   get editorViewPage() {
@@ -54,19 +54,32 @@ class PageSection {
   async pageInList(title) {
     await this.driver.$(".gh-list").waitForExist();
 
-    var pageElements = await this.driver.$$(
+    let pageElements = await this.driver.$$(
       "li.gh-list-row.gh-posts-list-item"
     );
-    return await pageElements.find(
-      async (element) => element.getText() == title
-    );
+
+    let pageFinded;
+
+    for (let i = 0; i < pageElements.length; i++) {
+      let pageText = await pageElements[i].getText();
+      if (pageText.includes(title)) {
+        console.log("--------FINDED TITLE--------", pageText, title);
+        pageFinded = pageElements[i];
+        break;
+      }
+    }
+
+    return pageFinded;
   }
 
-  notPageInList(title) {
-    return cy
-      .get("li.gh-list-row.gh-posts-list-item")
-      .filter(`:contains("${title}")`)
-      .should("not.exist");
+  async deletePage() {
+    await this.editorSettingsButton.click();
+    await this.editorDeletePageButton.click();
+    await this.driver.$(".modal-content").waitForExist();
+    const deleteButton = await this.modalDeleteButton;
+    await this.driver.execute((el) => el.click(), deleteButton);
+    await deleteButton.click();
+    await this.driver.$(".gh-canvas").waitForExist();
   }
 
   async updatePage() {
