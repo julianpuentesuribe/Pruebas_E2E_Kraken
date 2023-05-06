@@ -2,7 +2,7 @@
 
 ## Pre-requisitos y pasos previos:
 - Node.js v14.18.0
-- Tener *ghost* corriendo.
+- Tener *Ghost* corriendo.
 - Tener un perfil creado en *Ghost* con permisos de administrador.
 - En el archivo properties.json* se deben especificar la url donde esté corriendo *Ghost*,  el usuario y la contraseña del perfil con permisos de administrador, por ejemplo:
 ~~~
