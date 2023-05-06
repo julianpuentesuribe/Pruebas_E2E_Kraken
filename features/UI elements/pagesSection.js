@@ -24,11 +24,11 @@ class PageSection {
   }
 
   get editorUpdateDropdown() {
-    return cy.get("div[role='button']").contains("Update");
+    return this.driver.$("div[role='button'].gh-publishmenu-trigger");
   }
 
   get editorUpdateButton() {
-    return cy.get("button").contains("Update");
+    return this.driver.$("button.gh-publishmenu-button");
   }
 
   get editorSettingsButton() {
@@ -67,6 +67,11 @@ class PageSection {
       .get("li.gh-list-row.gh-posts-list-item")
       .filter(`:contains("${title}")`)
       .should("not.exist");
+  }
+
+  async updatePage() {
+    await this.editorUpdateDropdown.click();
+    await this.editorUpdateButton.click();
   }
 
   async publishPage() {
