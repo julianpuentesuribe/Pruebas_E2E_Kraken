@@ -3,12 +3,14 @@ const LoginPage = require("../../UI elements/loginPage");
 const AdminMenu = require("../../UI elements/adminMenu");
 const PageSection = require("../../UI elements/pagesSection");
 const PostSection = require("../../UI elements/postsSection");
+const TagSection = require("../../UI elements/tagsSection");
 const Site = require("../../UI elements/site");
 
 let loginPage = new LoginPage();
 let adminMenu = new AdminMenu();
 let pagesSection = new PageSection();
 let postsSection = new PostSection();
+let tagsSection = new TagSection();
 let site = new Site();
 let currentPageUrl;
 
@@ -23,6 +25,7 @@ Given(
     adminMenu = new AdminMenu(this.driver);
     pagesSection = new PageSection(this.driver);
     postsSection = new PostSection(this.driver);
+    tagsSection = new TagSection(this.driver);
     site = new Site(this.driver);
     await loginPage.usernameInput.setValue(email);
     await loginPage.passwordInput.setValue(password);
@@ -256,5 +259,28 @@ Then(
   async function (title) {
     await postsSection.postInList(title);
 
+  }
+);
+
+Given("I go to tags tab", async function () {
+  await adminMenu.tagTab.click();
+});
+
+When(
+  "I create a new tag with name {kraken-string}, slug {kraken-string} and description {kraken-string}",
+  async function (name, slug, description) {
+    await tagsSection.createTag(name, slug, description);
+  }
+);
+
+When("I save tha tag", async function () {
+  await tagsSection.saveNewTag();
+});
+
+When(
+  "I select a tag in the list with name {kraken-string}",
+  async function (name) {
+    const tagRow = await tagsSection.tagInList(name);
+    tagRow.click();
   }
 );

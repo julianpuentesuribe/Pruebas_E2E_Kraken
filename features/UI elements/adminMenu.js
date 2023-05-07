@@ -8,6 +8,9 @@ class AdminMenu {
   get postTab() {
     return this.driver.$("a[href='#/posts/']");
   }
+  get tagTab() {
+    return this.driver.$("a[href='#/tags/']");
+  }
 }
 
 module.exports = AdminMenu;
