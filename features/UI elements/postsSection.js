@@ -23,6 +23,13 @@ class PostSection {
     return this.driver.$("button.gh-publishmenu-button");
   }
 
+  get editorUpdateDropdown() {
+    return this.driver.$("div[role='button'].gh-publishmenu-trigger");
+  }
+
+  get editorUpdateButton() {
+    return this.driver.$("button.gh-publishmenu-button");
+  }
 
   get editorSettingsButton() {
     return this.driver.$("button[title='Settings']");
@@ -46,6 +53,11 @@ class PostSection {
     return await postElements.find(
       async (element) => element.getText() == title
     );
+  }
+
+  async updatePost() {
+    await this.editorUpdateDropdown.click();
+    await this.editorUpdateButton.click();
   }
   async publishPost() {
     await this.editorPublishDropdown.click();

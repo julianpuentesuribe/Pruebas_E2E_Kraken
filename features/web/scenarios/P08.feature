@@ -16,4 +16,4 @@ Scenario: Edición unicamente del cuerpo de una página existente y validación 
   And I wait for 2 seconds
   And I update page
   And I wait for 2 seconds
-  Then I verify that the edited content "$$string_3" appeared on the website
+  Then I verify that the edited content "$string_2""$$string_3" appeared on the website
