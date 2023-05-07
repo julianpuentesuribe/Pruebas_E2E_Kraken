@@ -11,5 +11,5 @@ Scenario: Publicación de un post nuevo y validación de disponibilidad en la ap
   And I wait for 1 seconds
   Then I go back to post list
   And I wait for 1 seconds
-  And I verified that the post with title "$$string_1" is on the post list
-  And I verified that the post with title "$$string_1" is available in the webpage
+  And I verify that the post with title "$$string_1" is on the post list
+  And I verify that the post with title "$$string_1" is available in the webpage

@@ -11,7 +11,6 @@ let pagesSection = new PageSection();
 let postsSection = new PostSection();
 let site = new Site();
 let currentPageUrl;
-let currentPostUrl;
 
 Given("I navigate to page Ghost {kraken-string}", async function (url) {
   await this.driver.navigateTo(url);
@@ -62,12 +61,27 @@ When(
   }
 );
 
+When(
+  "I select a post in the list with title {kraken-string}",
+  async function (title) {
+    const postRow = await postsSection.postInList(title);
+    postRow.click();
+  }
+);
+
 When("I edit page content with {kraken-string}", async function (content) {
   const pageBody = await pagesSection.editorContainerBody;
   await pageBody.click();
   await pageBody.keys(["Control", "a", "Backspace"]); // se borra el contenido que habia antes
   await new Promise((resolve) => setTimeout(resolve, 1000));
   await pageBody.setValue(content);
+});
+
+When("I edit post content with {kraken-string}", async function (content) {
+  const postBody = await postsSection.editorContainerBody;
+  await postBody.click();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await postBody.setValue(content);
 });
 
 When("I edit page title with {kraken-string}", async function (title) {
@@ -82,6 +96,12 @@ When("I update page", async function () {
   await pagesSection.updatePage();
   await new Promise((resolve) => setTimeout(resolve, 4000));
   currentPageUrl = await pagesSection.getPageUrl();
+});
+
+When("I update post", async function () {
+  await postsSection.updatePost();
+  await new Promise((resolve) => setTimeout(resolve, 4000));
+  currentPageUrl = await postsSection.getPostUrl();
 });
 
 When("I delete the page", async function () {
@@ -130,12 +150,12 @@ Then(
 );
 
 Then(
-  "I verify that the edited content {kraken-string} appeared on the website",
-  async function (content) {
+  "I verify that the edited content {kraken-string}{kraken-string} appeared on the website",
+  async function (oldcontent,content) {
     await this.driver.navigateTo(currentPageUrl);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const pageContent = await site.pageContent.getText();
-    if (pageContent !== content) {
+    if (pageContent === oldcontent+content) {
       throw new Error(
         `The content "${content}" does not match with the page content "${pageContent}"`
       );
@@ -191,7 +211,7 @@ When(
 When("I publish the current post", async function () {
   await postsSection.publishPost();
   await new Promise((resolve) => setTimeout(resolve, 4000));
-  currentPostUrl = await postsSection.getPostUrl();
+  currentPageUrl = await postsSection.getPostUrl();
 });
 
 Then("I go back to post list", async function () {
@@ -203,7 +223,7 @@ Then("I go back to post list", async function () {
 Then(
   "I verify that the post with title {kraken-string} is available in the webpage",
   async function (title) {
-    await this.driver.navigateTo(currentPostUrl);
+    await this.driver.navigateTo(currentPageUrl);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const postTitle = await site.pageTitle.getText();
     if (postTitle !== title) {
