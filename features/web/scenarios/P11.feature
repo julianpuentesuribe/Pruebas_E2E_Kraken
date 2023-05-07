@@ -1,7 +1,7 @@
-Feature: Eliminar una página
+Feature: Creación de un tag y validación de la creación del tag.
 
 @user2 @web
-Scenario: Eliminación de una página existente y validación de la no disponibilidad de la página en la aplicación.
+Scenario: Creación de un tag y validación de la creación del tag.
   Given I navigate to page "<URL>"
   And I login with username "<USERNAME>" and password "<PASSWORD>"
   And I wait for 2 seconds

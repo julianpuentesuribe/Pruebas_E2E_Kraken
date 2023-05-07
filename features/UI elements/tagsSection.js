@@ -59,6 +59,10 @@ class TagSection {
       }
       return pageFinded;
     }
+
+    async editTag(name) {
+      await this.editorContainerName.setValue(name);
+    }
 }
 
 module.exports = TagSection;

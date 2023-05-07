@@ -391,3 +391,10 @@ When(
     tagRow.click();
   }
 );
+
+When(
+  "I edit tag name {kraken-string}",
+  async function (name) {
+    await tagsSection.editTag(name);
+  }
+);
