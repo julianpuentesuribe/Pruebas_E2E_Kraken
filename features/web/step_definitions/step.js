@@ -47,72 +47,61 @@ Given("I go to staff tab", async function () {
   await adminMenu.staffTab.click();
 });
 
-When(
-  "I select the Ghost user",
-  async function () {
-    const ghostUser = await staffSection.defaultGhostUser;
-    await ghostUser.click()
-  }
-);
+When("I select the Ghost user", async function () {
+  const ghostUser = await staffSection.defaultGhostUser;
+  await ghostUser.click();
+});
 
-When(
-  "I change role to Contributor",
-  async function () {
-    await staffSection.changeRole(3);
-  }
-);
+When("I change role to Contributor", async function () {
+  await staffSection.changeRole(3);
+});
 
-When(
-  "I save the user",
-  async function () {
-    await staffSection.saveUser();
-  }
-);
+When("I save the user", async function () {
+  await staffSection.saveUser();
+});
 
-Then('I go back to staff list', async function () {
+Then("I go back to staff list", async function () {
   const backButton = await staffSection.goBackToStaffList;
   await this.driver.execute((el) => el.click(), backButton);
   return backButton.click();
-})
+});
 
-Then('I verify that the role tag is Contributor', async function () {
+Then("I verify that the role tag is Contributor", async function () {
   const ghostUser = await staffSection.defaultGhostUser;
-  const userBadge = await ghostUser.$(".gh-badge")
-  const badgeText = await userBadge.getText()
+  const userBadge = await ghostUser.$(".gh-badge");
+  const badgeText = await userBadge.getText();
   if (badgeText !== "CONTRIBUTOR") {
-    throw new Error(
-      `The new role for the Ghost user is not Contributor"`
-    );
+    throw new Error(`The new role for the Ghost user is not Contributor"`);
   }
-  await ghostUser.click()
+  await ghostUser.click();
   await staffSection.changeRole(2);
   await staffSection.saveUser();
-})
+});
 
-Given('I go to design tab', async function () {
+Given("I go to design tab", async function () {
   await adminMenu.designTab.click();
 });
 
 When(
   "I create a new navigation item with the label {kraken-string} and url {kraken-string}",
   async function (label, url) {
-    await designSection.createNav(label,url)
+    await designSection.createNav(label, url);
   }
 );
 
-When('I save the design', async function () {
+When("I save the design", async function () {
   await designSection.saveDesign();
 });
 
-Then('I go to view the site', async function () {
+Then("I go to view the site", async function () {
   const siteButton = await designSection.goViewSite;
-  siteButton.click()
+  siteButton.click();
 });
 
 Then(
   "I verify that a navigation with the label {kraken-string} and url {kraken-string} exists",
   async function (label, url) {
-    const element = await site.findNavItem(url)
+    const element = await site.findNavItem(url);
     if (!element) {
       throw new Error(
         `Did not find a nav link with the label "${label}" and the url "${url}" on the site`
@@ -137,12 +126,6 @@ When("I publish the current page", async function () {
 When(
   "I select a page in the list with title {kraken-string}",
   async function (title) {
-    console.log(
-      "-------------------------------------SELECT IN PAGE LIST-----------------------------------------"
-    );
-    console.log(
-      "----------------------------------------------------------------------------------------------"
-    );
     const pageRow = await pagesSection.pageInList(title);
     pageRow.click();
   }
@@ -249,11 +232,11 @@ Then(
 
 Then(
   "I verify that the edited content {kraken-string}{kraken-string} appeared on the website",
-  async function (oldcontent,content) {
+  async function (oldcontent, content) {
     await this.driver.navigateTo(currentPageUrl);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     const pageContent = await site.pageContent.getText();
-    if (pageContent === oldcontent+content) {
+    if (pageContent === oldcontent + content) {
       throw new Error(
         `The content "${content}" does not match with the page content "${pageContent}"`
       );
@@ -339,9 +322,6 @@ Then(
     if (postTitle !== title) {
       throw new Error(
         `The post title "${title}" does not match the h1 text "${postTitle}"`
-
-
-
       );
     }
   }
@@ -365,7 +345,6 @@ Then(
   "I verify that the post with title {kraken-string} is on the post list",
   async function (title) {
     await postsSection.postInList(title);
-
   }
 );
 
@@ -392,19 +371,13 @@ When(
   }
 );
 
-When(
-  "I edit tag name {kraken-string}",
-  async function (name) {
-    await tagsSection.editTag(name);
-  }
-);
+When("I edit tag name {kraken-string}", async function (name) {
+  await tagsSection.editTag(name);
+});
 
-When(
-  "I delete tag",
-  async function () {
-    await tagsSection.deleteTag();
-  }
-);
+When("I delete tag", async function () {
+  await tagsSection.deleteTag();
+});
 
 Then(
   "I verify tag with title {kraken-string} is not on the tag list",
@@ -418,20 +391,31 @@ Then(
   }
 );
 
-When(
-  "I change password {kraken-string}",
-  async function (password) {    
-    await staffSection.changePass(password);
-  }
-);
- 
-When("I sign out {kraken-string}", async function (url) {    
-  await this.driver.navigateTo(url + '#/signout/');
-  }
-);
+Then("I edit first label with value {kraken-string}", async function (value) {
+  const navLabels = await designSection.navigationLabels;
+  navLabels[0].setValue(value);
+});
 
-When("I change state",
-  async function () {    
-    await staffSection.changeState();
+When("I change password {kraken-string}", async function (password) {
+  await staffSection.changePass(password);
+});
+
+When("I sign out {kraken-string}", async function (url) {
+  await this.driver.navigateTo(url + "#/signout/");
+});
+
+When("I change state", async function () {
+  await staffSection.changeState();
+});
+
+Then("I reload", async function () {
+  await this.driver.refresh();
+});
+
+Then("I verify first label has value {kraken-string}", async function (value) {
+  const navLabels = await designSection.navigationLabels;
+  const currentValue = await navLabels[0].getValue(value);
+  if (currentValue !== value) {
+    throw new Error(`The first label doesn't have value "${value}".`);
   }
-);
+});
