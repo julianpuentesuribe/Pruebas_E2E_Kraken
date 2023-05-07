@@ -8,14 +8,14 @@ class AdminMenu {
   get postTab() {
     return this.driver.$("a[href='#/posts/']");
   }
-  get tagTab() {
-    return this.driver.$("a[href='#/tags/']");
-  }
   get staffTab() {
     return this.driver.$("a[href='#/staff/']");
   }
   get designTab() {
     return this.driver.$("a[href='#/settings/design/']");
+  }
+    get tagTab() {
+    return this.driver.$("a[href='#/tags/']");
   }
 }
 
