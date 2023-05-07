@@ -92,6 +92,13 @@ When("I edit page title with {kraken-string}", async function (title) {
   await pageTitle.setValue(title);
 });
 
+When("I edit post title with {kraken-string}", async function (title) {
+  const postTitle = await postsSection.editorContainerTitle;
+  await postTitle.click();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await postTitle.setValue(title);
+});
+
 When("I update page", async function () {
   await pagesSection.updatePage();
   await new Promise((resolve) => setTimeout(resolve, 4000));
