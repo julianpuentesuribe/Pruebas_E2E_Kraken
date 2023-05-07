@@ -36,9 +36,18 @@ class StaffSection {
     return this.driver.$(".suspend");
   }
 
-  get editorSuspendModalButton() {          
-    return this.driver.$(".gh-btn.gh-btn-red.gh-btn-icon.ember-view");
+  get editorActiveButton() {          
+    return this.driver.$(".unsuspend");
+  }
+
+  get editorUnSuspendModalButton() {          
+    
+    return this.driver.$('button=Un-suspend')
   }  
+
+  get editorSuspendModalButton() {          
+    return this.driver.$(".gh-btn.gh-btn-red.gh-btn-icon.ember-view");    
+  }
 
   get buttonSignOut() {      
     return this.driver.$(".ember-view.ember-basic-dropdown-trigger.ember-basic-dropdown-trigger--left.ember-basic-dropdown-trigger--above..flex.items-center.outline-0.pointer.space-between.pa2.pl4.pr3.mt3.mb6");
@@ -53,6 +62,21 @@ class StaffSection {
     await this.editorContainerPass.setValue(newPass);
     await this.editorContainerVeriPass.setValue(newPass);
     await this.changePassword.click();
+  }
+
+  
+  async changeIdleState() {
+    await this.editorSettingsButton.click();
+    await this.editorActiveButton.click();
+
+  }
+
+
+  async changeIdleFinalState() {
+    await this.driver.$(".modal-content").waitForExist();
+    const supendButton = await this.editorUnSuspendModalButton;
+    await this.driver.execute((el) => el.click(), supendButton);
+    await supendButton.click();
   }
 
   async changeState() {            

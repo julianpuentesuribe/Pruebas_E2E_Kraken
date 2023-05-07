@@ -418,4 +418,16 @@ Then("I verify first label has value {kraken-string}", async function (value) {
   if (currentValue !== value) {
     throw new Error(`The first label doesn't have value "${value}".`);
   }
-});
+);
+
+When("I change idle state",
+  async function () {    
+    await staffSection.changeIdleState();
+  }
+  );
+
+  When("I change idle state final",
+  async function () {    
+    await staffSection.changeIdleFinalState();
+  }
+  );
