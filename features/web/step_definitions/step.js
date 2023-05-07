@@ -435,3 +435,15 @@ When("I change state",
     await staffSection.changeState();
   }
 );
+
+When("I change idle state {kraken-string}",
+  async function (password) {    
+    await staffSection.changeIdleState(password);
+  }
+  );
+
+  When("I change idle state final",
+  async function () {    
+    await staffSection.changeIdleFinalState();
+  }
+  );

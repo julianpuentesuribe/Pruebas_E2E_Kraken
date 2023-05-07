@@ -36,6 +36,10 @@ class StaffSection {
     return this.driver.$(".suspend");
   }
 
+  get editorActiveButton() {          
+    return this.driver.$(".unsuspend");
+  }
+
   get editorSuspendModalButton() {          
     return this.driver.$(".gh-btn.gh-btn-red.gh-btn-icon.ember-view");
   }  
@@ -53,6 +57,25 @@ class StaffSection {
     await this.editorContainerPass.setValue(newPass);
     await this.editorContainerVeriPass.setValue(newPass);
     await this.changePassword.click();
+  }
+
+  
+  async changeIdleState(newPass) {
+
+    await this.editorContainerPass.setValue(newPass);
+    await this.editorContainerVeriPass.setValue(newPass);
+
+    await this.editorSettingsButton.click();
+    await this.editorActiveButton.click();
+
+  }
+
+
+  async changeIdleFinalState() {
+    await this.driver.$(".modal-content").waitForExist();
+    const supendButton = await this.editorSuspendModalButton;
+    await this.driver.execute((el) => el.click(), supendButton);
+    await supendButton.click();
   }
 
   async changeState() {            
