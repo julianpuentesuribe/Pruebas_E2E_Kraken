@@ -3,12 +3,14 @@ const LoginPage = require("../../UI elements/loginPage");
 const AdminMenu = require("../../UI elements/adminMenu");
 const PageSection = require("../../UI elements/pagesSection");
 const PostSection = require("../../UI elements/postsSection");
+const StaffSection = require("../../UI elements/staffSection");
 const Site = require("../../UI elements/site");
 
 let loginPage = new LoginPage();
 let adminMenu = new AdminMenu();
 let pagesSection = new PageSection();
 let postsSection = new PostSection();
+let staffSection = new StaffSection();
 let site = new Site();
 let currentPageUrl;
 
@@ -23,6 +25,7 @@ Given(
     adminMenu = new AdminMenu(this.driver);
     pagesSection = new PageSection(this.driver);
     postsSection = new PostSection(this.driver);
+    staffSection = new StaffSection(this.driver);
     site = new Site(this.driver);
     await loginPage.usernameInput.setValue(email);
     await loginPage.passwordInput.setValue(password);
@@ -33,6 +36,52 @@ Given(
 Given("I go to pages tab", async function () {
   await adminMenu.pageTab.click();
 });
+
+Given("I go to staff tab", async function () {
+  await adminMenu.staffTab.click();
+});
+
+When(
+  "I select the Ghost user",
+  async function () {
+    const ghostUser = await staffSection.defaultGhostUser;
+    await ghostUser.click()
+  }
+);
+
+When(
+  "I change role to Contributor",
+  async function () {
+    await staffSection.changeRole(3);
+  }
+);
+
+When(
+  "I save the user",
+  async function () {
+    await staffSection.saveUser();
+  }
+);
+
+Then('I go back to staff list', async function () {
+  const backButton = await staffSection.goBackToStaffList;
+  await this.driver.execute((el) => el.click(), backButton);
+  return backButton.click();
+})
+
+Then('I verify that the role tag is Contributor', async function () {
+  const ghostUser = await staffSection.defaultGhostUser;
+  const userBadge = await ghostUser.$(".gh-badge")
+  const badgeText = await userBadge.getText()
+  if (badgeText !== "CONTRIBUTOR") {
+    throw new Error(
+      `The new role for the Ghost user is not Contributor"`
+    );
+  }
+  await ghostUser.click()
+  await staffSection.changeRole(2);
+  await staffSection.saveUser();
+})
 
 When(
   "I create a new page with title {kraken-string} and content {kraken-string}",
