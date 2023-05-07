@@ -29,6 +29,9 @@ Given(
     adminMenu = new AdminMenu(this.driver);
     pagesSection = new PageSection(this.driver);
     postsSection = new PostSection(this.driver);
+    tagsSection = new TagSection(this.driver);
+    staffSection = new StaffSection(this.driver);
+    designSection = new DesignSection(this.driver);
     site = new Site(this.driver);
     await loginPage.usernameInput.setValue(email);
     await loginPage.passwordInput.setValue(password);
