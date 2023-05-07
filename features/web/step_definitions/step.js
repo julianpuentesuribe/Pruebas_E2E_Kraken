@@ -4,6 +4,7 @@ const AdminMenu = require("../../UI elements/adminMenu");
 const PageSection = require("../../UI elements/pagesSection");
 const PostSection = require("../../UI elements/postsSection");
 const StaffSection = require("../../UI elements/staffSection");
+const DesignSection = require("../../UI elements/designSection");
 const Site = require("../../UI elements/site");
 
 let loginPage = new LoginPage();
@@ -11,6 +12,7 @@ let adminMenu = new AdminMenu();
 let pagesSection = new PageSection();
 let postsSection = new PostSection();
 let staffSection = new StaffSection();
+let designSection = new DesignSection();
 let site = new Site();
 let currentPageUrl;
 
@@ -26,6 +28,7 @@ Given(
     pagesSection = new PageSection(this.driver);
     postsSection = new PostSection(this.driver);
     staffSection = new StaffSection(this.driver);
+    designSection = new DesignSection(this.driver);
     site = new Site(this.driver);
     await loginPage.usernameInput.setValue(email);
     await loginPage.passwordInput.setValue(password);
@@ -82,6 +85,38 @@ Then('I verify that the role tag is Contributor', async function () {
   await staffSection.changeRole(2);
   await staffSection.saveUser();
 })
+
+Given('I go to design tab', async function () {
+  await adminMenu.designTab.click();
+});
+
+When(
+  "I create a new navigation item with the label {kraken-string} and url {kraken-string}",
+  async function (label, url) {
+    await designSection.createNav(label,url)
+  }
+);
+
+When('I save the design', async function () {
+  await designSection.saveDesign();
+});
+
+Then('I go to view the site', async function () {
+  const siteButton = await designSection.goViewSite;
+  siteButton.click()
+});
+
+Then(
+  "I verify that a navigation with the label {kraken-string} and url {kraken-string} exists",
+  async function (label, url) {
+    const element = await site.findNavItem(url)
+    if (!element) {
+      throw new Error(
+        `Did not find a nav link with the label "${label}" and the url "${url}" on the site`
+      );
+    }
+  }
+);
 
 When(
   "I create a new page with title {kraken-string} and content {kraken-string}",
