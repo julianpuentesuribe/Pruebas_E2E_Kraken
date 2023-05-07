@@ -27,6 +27,14 @@ class TagSection {
       return this.driver.$(".gh-btn.gh-btn-blue.gh-btn-icon.ember-view");
   }
 
+  get editorDeleteTagButton() {
+    return this.driver.$(".gh-btn.gh-btn-red.gh-btn-icon.mb15");
+  }
+
+  get editorDeleteModalTagButton() {
+    return this.driver.$(".gh-btn.gh-btn-red.gh-btn-icon.ember-view");
+  }
+
   get editorSettingsButton() {
     return this.driver.$("button[title='Settings']");
   }
@@ -62,6 +70,14 @@ class TagSection {
 
     async editTag(name) {
       await this.editorContainerName.setValue(name);
+    }
+
+    async deleteTag() {
+      await this.editorDeleteTagButton.click();
+      await this.driver.$(".modal-content").waitForExist();
+      const deleteButton = await this.editorDeleteModalTagButton;
+      await this.driver.execute((el) => el.click(), deleteButton);
+      await deleteButton.click();
     }
 }
 

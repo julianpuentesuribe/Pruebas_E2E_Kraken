@@ -398,3 +398,22 @@ When(
     await tagsSection.editTag(name);
   }
 );
+
+When(
+  "I delete tag",
+  async function () {
+    await tagsSection.deleteTag();
+  }
+);
+
+Then(
+  "I verify tag with title {kraken-string} is not on the tag list",
+  async function (title) {
+    const pageInList = await tagsSection.tagInList(title);
+    if (pageInList != undefined) {
+      throw new Error(
+        `The page with title "${title}" still appears in pages list."`
+      );
+    }
+  }
+);
