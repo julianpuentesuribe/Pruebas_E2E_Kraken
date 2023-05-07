@@ -35,6 +35,13 @@ class PostSection {
     return this.driver.$("button[title='Settings']");
   }
 
+  get editorDeletePostButton() {
+    return this.driver.$("button.settings-menu-delete-button");
+  }
+
+  get modalDeleteButton() {
+    return this.driver.$("button.gh-btn-red");
+  }
 
   get editorViewPost() {
     return this.driver.$("a.post-view-link");
@@ -59,6 +66,7 @@ class PostSection {
     await this.editorUpdateDropdown.click();
     await this.editorUpdateButton.click();
   }
+
   async publishPost() {
     await this.editorPublishDropdown.click();
     await this.editorPublishButton.click();
@@ -73,6 +81,16 @@ class PostSection {
     await this.newPostButton.click();
     await this.editorContainerTitle.setValue(title);
     await this.editorContainerBody.setValue(content);
+  }
+
+  async deletePost() {
+    await this.editorSettingsButton.click();
+    await this.editorDeletePostButton.click();
+    await this.driver.$(".modal-content").waitForExist();
+    const deleteButton = await this.modalDeleteButton;
+    await this.driver.execute((el) => el.click(), deleteButton);
+    await deleteButton.click();
+    await this.driver.$(".gh-canvas").waitForExist();
   }
 }
 
