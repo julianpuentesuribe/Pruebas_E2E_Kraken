@@ -4,12 +4,13 @@
 - Node.js v14.18.0
 - Tener *Ghost* corriendo.
 - Tener un perfil creado en *Ghost* con permisos de administrador.
-- En el archivo *properties.json* se debe especificar la url donde esté corriendo el administrador de *Ghost*, y el usuario y la contraseña del perfil con permisos de administrador, por ejemplo:
+- En el archivo *properties.json* se debe especificar la url donde esté corriendo el administrador de *Ghost*, y el usuario y la contraseña del perfil con permisos de administrador, además se agrega el usuario genérico de Ghost que se crea por defecto este debe actualizar sí ha cambiado el correo genérico  por ejemplo:
 ~~~
 {
   "URL": "http://localhost:2368/ghost/",
   "USERNAME": "pepito@uniandes.edu.co",
-  "PASSWORD": "123456789."
+  "PASSWORD": "123456789.",
+  "USERNAMEGHOST": "ghost-author@example.com"
 }
 ~~~
 
