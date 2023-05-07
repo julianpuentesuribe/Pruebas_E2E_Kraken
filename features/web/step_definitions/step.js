@@ -429,3 +429,9 @@ When("I sign out {kraken-string}", async function (url) {
   await this.driver.navigateTo(url + '#/signout/');
   }
 );
+
+When("I change state",
+  async function () {    
+    await staffSection.changeState();
+  }
+);
