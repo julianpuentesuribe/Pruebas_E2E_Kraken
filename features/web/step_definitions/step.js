@@ -417,3 +417,15 @@ Then(
     }
   }
 );
+
+When(
+  "I change password {kraken-string}",
+  async function (password) {    
+    await staffSection.changePass(password);
+  }
+);
+ 
+When("I sign out {kraken-string}", async function (url) {    
+  await this.driver.navigateTo(url + '#/signout/');
+  }
+);

@@ -15,9 +15,35 @@ class StaffSection {
     return this.driver.$("a[href='#/staff/']");
   }
 
+  get editorContainerPass() {
+    return this.driver.$("#user-password-new");
+  }
+
+  get editorContainerVeriPass() {
+    return this.driver.$("#user-new-password-verification");
+  }
+
+  get changePassword() {      
+    return this.driver.$(".gh-btn.gh-btn-icon.button-change-password.gh-btn-red.ember-view");
+  }
+
+  get buttonSignOut() {      
+    return this.driver.$(".ember-view.ember-basic-dropdown-trigger.ember-basic-dropdown-trigger--left.ember-basic-dropdown-trigger--above..flex.items-center.outline-0.pointer.space-between.pa2.pl4.pr3.mt3.mb6");
+  }
+
   async changeRole(newRole) {
     const select = await this.driver.$("select#new-user-role");
     await select.selectByIndex(newRole)
+  }
+
+  async changePass(newPass) {        
+    await this.editorContainerPass.setValue(newPass);
+    await this.editorContainerVeriPass.setValue(newPass);
+    await this.changePassword.click();
+  }
+
+  async signOutUser() {            
+    await this.buttonSignOut.click();
   }
 
   async saveUser() {

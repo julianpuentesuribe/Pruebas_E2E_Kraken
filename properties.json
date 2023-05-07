@@ -1,5 +1,6 @@
 {
-  "URL": "http://localhost:2368/ghost/",
-  "USERNAME": "ld.molina11@uniandes.edu.co",
-  "PASSWORD": "1234567890A."
+  "URL": "http://localhost:2368/ghost/",  
+  "USERNAME": "pepito@uniandes.edu.co",
+  "PASSWORD": "123456789.",
+  "USERNAMEGHOST": "ghost-author@example.com"
 }
