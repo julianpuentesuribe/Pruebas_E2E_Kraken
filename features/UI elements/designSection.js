@@ -3,6 +3,14 @@ class DesignSection {
     this.driver = driver;
   }
 
+  get labelInput() {
+    return this.driver.$('input[placeholder="Label"]').eq(-2);
+  }
+
+  get addButton() {
+    return this.driver.$("button.gh-blognav-add");
+  }
+
   get saveButton() {
     return this.driver.$("button.gh-btn-blue");
   }
@@ -13,6 +21,10 @@ class DesignSection {
 
   get navigationLabels() {
     return this.driver.$$("#settings-navigation input[placeholder='Label']");
+  }
+
+  get navigationLinks() {
+    return this.driver.$$("#settings-navigation span.gh-blognav-url input");
   }
 
   async createNav(label, url) {
@@ -28,6 +40,14 @@ class DesignSection {
 
   async saveDesign() {
     await this.saveButton.click();
+  }
+
+  async createLink(label, link) {
+    const labels = await this.navigationLabels;
+    const links = await this.navigationLinks;
+    await labels[labels.length - 1].setValue(label);
+    await links[links.length - 1].setValue(link);
+    await this.addButton.click({ force: true });
   }
 }
 
