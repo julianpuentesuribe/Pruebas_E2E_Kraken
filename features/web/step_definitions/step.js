@@ -115,6 +115,10 @@ When("I delete the page", async function () {
   await pagesSection.deletePage();
 });
 
+When("I delete the post", async function () {
+  await postsSection.deletePost();
+});
+
 Then("I go back to page list", async function () {
   const backButton = await pagesSection.goBackToPagesSection;
   await this.driver.execute((el) => el.click(), backButton);
@@ -191,6 +195,18 @@ Then(
     if (pageInList != undefined) {
       throw new Error(
         `The page with title "${title}" still appears in pages list."`
+      );
+    }
+  }
+);
+
+Then(
+  "I verify post with title {kraken-string} is not on the post list",
+  async function (title) {
+    const postInList = await postsSection.postInList(title);
+    if (postInList != undefined) {
+      throw new Error(
+        `The post with title "${title}" still appears in posts list."`
       );
     }
   }
