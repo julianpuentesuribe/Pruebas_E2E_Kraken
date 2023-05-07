@@ -436,9 +436,9 @@ When("I change state",
   }
 );
 
-When("I change idle state {kraken-string}",
-  async function (password) {    
-    await staffSection.changeIdleState(password);
+When("I change idle state",
+  async function () {    
+    await staffSection.changeIdleState();
   }
   );
 
