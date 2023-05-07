@@ -11,6 +11,9 @@ class AdminMenu {
   get staffTab() {
     return this.driver.$("a[href='#/staff/']");
   }
+  get designTab() {
+    return this.driver.$("a[href='#/settings/design/']");
+  }
 }
 
 module.exports = AdminMenu;
