@@ -14,4 +14,4 @@ Scenario: Eliminar un link y verificar el cambio.
   And I wait for 2 seconds
   And I save the design
   Then I reload
-  And I verify deleted link with label "$$string_1" and url "$$url_1" is not there
+  And I verify link with label "$string_1" and url "$url_1" is not there

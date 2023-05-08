@@ -418,16 +418,49 @@ Then("I verify first label has value {kraken-string}", async function (value) {
   if (currentValue !== value) {
     throw new Error(`The first label doesn't have value "${value}".`);
   }
+});
+
+When("I change idle state", async function () {
+  await staffSection.changeIdleState();
+});
+
+When("I change idle state final", async function () {
+  await staffSection.changeIdleFinalState();
+});
+
+When(
+  "I add a new link with label {kraken-string} and url {kraken-string}",
+  async function (label, url) {
+    await designSection.createLink(label, url);
+  }
 );
 
-When("I change idle state",
-  async function () {    
-    await staffSection.changeIdleState();
+Then(
+  "I verify new link with label {kraken-string} and url {kraken-string}",
+  async function (label, url) {
+    let navLabels = await designSection.navigationLabels;
+    let navLinks = await designSection.navigationLinks;
+    const lastLabel = await navLabels[navLabels.length - 2].getValue();
+    const lastLink = await navLinks[navLinks.length - 2].getValue();
+    console.log("RESULTADOS: ", lastLabel, lastLink, label, url);
+    if (lastLabel !== label || lastLink !== url) {
+      throw new Error(`The new link not created properly".`);
+    }
   }
-  );
+);
 
-  When("I change idle state final",
-  async function () {    
-    await staffSection.changeIdleFinalState();
+When("I delete created link", async function () {
+  let buttons = await designSection.deleteButtons;
+  buttons[buttons.length - 1].click();
+});
+
+Then(
+  "I verify deleted link with label {kraken-string} and url {kraken-string} is not there",
+  async function (label, url) {
+    let navLabels = await designSection.navigationLabels;
+    const lastLabel = await navLabels[navLabels.length - 2].getValue();
+    if (lastLabel === label) {
+      throw new Error(`The link wasn't deleted properly".`);
+    }
   }
-  );
+);
