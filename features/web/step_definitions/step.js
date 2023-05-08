@@ -440,10 +440,27 @@ Then(
   async function (label, url) {
     let navLabels = await designSection.navigationLabels;
     let navLinks = await designSection.navigationLinks;
-    const lastLabel = await navLabels[navLabels.length - 1].getValue();
-    const lastLink = await navLinks[navLinks.length - 1].getValue();
-    if (lastLabel !== label || lastLink !== link) {
+    const lastLabel = await navLabels[navLabels.length - 2].getValue();
+    const lastLink = await navLinks[navLinks.length - 2].getValue();
+    console.log("RESULTADOS: ", lastLabel, lastLink, label, url);
+    if (lastLabel !== label || lastLink !== url) {
       throw new Error(`The new link not created properly".`);
+    }
+  }
+);
+
+When("I delete created link", async function () {
+  let buttons = await designSection.deleteButtons;
+  buttons[buttons.length - 1].click();
+});
+
+Then(
+  "I verify deleted link with label {kraken-string} and url {kraken-string} is not there",
+  async function (label, url) {
+    let navLabels = await designSection.navigationLabels;
+    const lastLabel = await navLabels[navLabels.length - 2].getValue();
+    if (lastLabel === label) {
+      throw new Error(`The link wasn't deleted properly".`);
     }
   }
 );

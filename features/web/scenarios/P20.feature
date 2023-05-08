@@ -6,8 +6,12 @@ Scenario: Eliminar un link y verificar el cambio.
   And I login with username "<USERNAME>" and password "<PASSWORD>"
   And I wait for 2 seconds
   And I go to design tab
-  When I edit first label with value "$string_1"
+  And I add a new link with label "$string_1" and url "$url_1"
   And I save the design
-  And I wait for 2 seconds
+  And I wait for 1 seconds
   Then I reload
-  And I verify first label has value "$$string_1"
+  When I delete created link
+  And I wait for 2 seconds
+  And I save the design
+  Then I reload
+  And I verify link with label "$string_1" and url "$url_1" is not there

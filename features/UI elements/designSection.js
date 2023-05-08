@@ -11,6 +11,10 @@ class DesignSection {
     return this.driver.$("button.gh-blognav-add");
   }
 
+  get deleteButtons() {
+    return this.driver.$$("button.gh-blognav-delete");
+  }
+
   get saveButton() {
     return this.driver.$("button.gh-btn-blue");
   }

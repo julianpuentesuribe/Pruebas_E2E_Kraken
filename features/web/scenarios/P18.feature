@@ -12,4 +12,4 @@ Scenario: Agregar un nuevo link y verificar cambios.
   And I wait for 1 seconds
   Then I reload
   And I wait for 1 seconds
-  And I verify new link with label "$string_1" and url "$url_1"
+  And I verify new link with label "$$string_1" and url "$$url_1"
