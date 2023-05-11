@@ -1,17 +1,17 @@
-Feature: Eliminar link de navegación
+Feature: Creación de un tag y validación de la creación del tag.
 
 @user2 @web
-Scenario: Eliminar un link y verificar el cambio.
+Scenario: Creación de un tag y validación de la creación del tag.
   Given I navigate to page "<URL>"
+  And I take screenshot with name "11.1 carga"
   And I login with username "<USERNAME>" and password "<PASSWORD>"
   And I wait for 2 seconds
-  And I go to design tab
-  And I add a new link with label "$string_1" and url "$url_1"
-  And I save the design
-  And I wait for 1 seconds
-  Then I reload
-  When I delete created link
+  And I go to tags tab  
   And I wait for 2 seconds
-  And I save the design
-  Then I reload
-  And I verify deleted link with label "$$string_1" and url "$$url_1" is not there
+  When I create a new tag with name "$string_1", slug "$$string_1" and description "$string_2"
+  And I save tha tag
+  And I wait for 2 seconds
+  Then I go to tags tab
+  And I wait for 2 seconds
+  And I select a tag in the list with name "$$string_1" 
+  And I wait for 2 seconds

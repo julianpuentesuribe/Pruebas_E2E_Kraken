@@ -464,3 +464,10 @@ Then(
     }
   }
 );
+
+
+When("I take screenshot with name {string}", 
+      async function (screenName){
+  return await this.driver.saveScreenshot (`screenshots/${screenName}.png`);
+});
+
